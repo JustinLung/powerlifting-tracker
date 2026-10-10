@@ -1,6 +1,6 @@
 # Current state
 
-_Last updated: 2026-10-10, after the dashboard preview. Update this file whenever capabilities or architecture change._
+_Last updated: 2026-10-10, after the sign-in and sign-up screens. Update this file whenever capabilities or architecture change._
 
 ## Summary
 
@@ -20,6 +20,9 @@ The repository is an **unmodified `create-next-app` scaffold** (Next.js 16.4.0, 
 | `lib/dashboard/` | View-model `types.ts`, pure `metrics.ts` helpers, and **`mock-data.ts` (sample data only)** |
 | `lib/domain/format.ts` | kg, RPE, sets × reps, date and relative-time formatting |
 | `app/dashboard-preview/` | Dev-only route (404 in production). `?role=coach` switches the view. Sample data banner. See ADR-015 |
+| `app/(auth)/` | `/sign-in` and `/sign-up` screens, **UI only**: client-side validation, no backend. A valid submit shows a "Not connected yet" alert. Role selection is deliberately not in sign-up (Q-019) |
+| `components/auth/` | `SignInForm`, `SignUpForm`, `PasswordInput` (show/hide) |
+| `lib/auth/validation.ts` | Pure form validation. The 8-character minimum is a placeholder until Q-004 is decided |
 | `lib/cn.ts` | Class-name joiner |
 | `next.config.ts` | `cacheComponents`, `partialPrefetching`, `experimental.agentFeedback`, Tailwind Turbopack loader rule |
 | `eslint.config.mjs` | Next core-web-vitals + TypeScript presets |

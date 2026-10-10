@@ -4,7 +4,7 @@ One row per backlog feature ([features/README.md](../features/README.md)). Updat
 
 | ID | Feature | Spec status | Implementation | Notes |
 | --- | --- | --- | --- | --- |
-| F-00 | Platform foundation | Not started | Not started | Blocked on Q-001, Q-002, Q-006, Q-007 |
+| F-00 | Platform foundation | Draft (awaiting owner approval) | Not started | Decisions made (ADR-007, 016, 017, 018, 019). Open: DB-006 style and DB-020 wording, see spec §13 |
 | F-01 | Authentication and roles | Not started | Not started | Blocked on Q-004, Q-019 |
 | F-02 | Coach-athlete relationships and roster | Not started | Not started | |
 | F-03 | Exercise library | Not started | Not started | |

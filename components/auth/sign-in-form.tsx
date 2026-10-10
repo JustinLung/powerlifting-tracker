@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
 import { TextLink } from "@/components/ui/text-link";
 import { hasErrors, validateSignIn, type FieldErrors } from "@/lib/auth/validation";
+import { NotConnected } from "./not-connected";
 import { PasswordInput } from "./password-input";
 
 type Errors = FieldErrors<"email" | "password">;
@@ -59,13 +59,5 @@ export function SignInForm() {
         New here? <TextLink href="/sign-up">Create an account</TextLink>
       </p>
     </form>
-  );
-}
-
-export function NotConnected() {
-  return (
-    <Alert tone="info" title="Not connected yet">
-      The form is valid, but there is no account backend yet, so nothing was sent.
-    </Alert>
   );
 }

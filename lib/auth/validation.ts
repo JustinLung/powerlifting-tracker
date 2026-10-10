@@ -10,7 +10,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export type FieldErrors<K extends string> = Partial<Record<K, string>>;
 
-export function validateEmail(value: string): string | undefined {
+function validateEmail(value: string): string | undefined {
   const email = value.trim();
   if (!email) return "Enter your email address.";
   if (!EMAIL.test(email)) return "Enter a valid email address.";

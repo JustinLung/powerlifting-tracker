@@ -11,7 +11,7 @@ import {
   type FieldErrors,
 } from "@/lib/auth/validation";
 import { PasswordInput } from "./password-input";
-import { NotConnected } from "./sign-in-form";
+import { NotConnected } from "./not-connected";
 
 type Errors = FieldErrors<"name" | "email" | "password">;
 

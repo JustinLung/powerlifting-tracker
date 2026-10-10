@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. See /styleguide for the rendered reference and
+ * spec/02_coding_standards/styling_and_components.md for the rules.
+ * Derived from the Perplexity DESIGN.md (warm minimalism), translated to dark mode.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* Surfaces: warm near-black, stepping up in lightness for elevation */
+  --background: #141311;
+  --surface: #1b1a17;
+  --surface-raised: #232220;
+  --surface-hover: #2b2a26;
+
+  /* Lines */
+  --border: #322f2a;
+  --border-strong: #4a4740;
+  --border-input: #7a766b; /* 3:1+ against surfaces (WCAG 1.4.11) */
+
+  /* Text */
+  --foreground: #f5f3ee;
+  --muted: #b0ab9f;
+  --subtle: #9a9589;
+
+  /* Primary: the inverse of the source's #27251e / #ffffff pairing */
+  --primary: #fcfcf9;
+  --primary-hover: #e6e4dd;
+  --on-primary: #27251e;
+
+  /* Accent: used sparingly for links, selection, and focus emphasis */
+  --accent: #5cc0cc;
+  --accent-hover: #7fd0da;
+  --accent-subtle: rgb(92 192 204 / 0.14);
+  --on-accent: #0b2023;
+
+  /* Status */
+  --success: #6cc596;
+  --success-subtle: rgb(108 197 150 / 0.14);
+  --warning: #e3b55a;
+  --warning-subtle: rgb(227 181 90 / 0.14);
+  --danger: #f0786d;
+  --danger-hover: #f59289;
+  --danger-subtle: rgb(240 120 109 / 0.14);
+  --on-danger: #2a0d0a;
+
+  /* Motion */
+  --motion-fast: 75ms;
+  --motion-base: 300ms;
+  --motion-slow: 1200ms;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-hover: var(--surface-hover);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-border-input: var(--border-input);
+
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-on-accent: var(--on-accent);
+
+  --color-success: var(--success);
+  --color-success-subtle: var(--success-subtle);
+  --color-warning: var(--warning);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-danger: var(--danger);
+  --color-danger-hover: var(--danger-hover);
+  --color-danger-subtle: var(--danger-subtle);
+  --color-on-danger: var(--on-danger);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    monospace;
+}
+
+@theme {
+  /* Type scale. Weights are 400 (regular) and 600 (semibold) only. */
+  --text-display: 2rem;
+  --text-display--line-height: 1.25;
+  --text-title: 1.5rem;
+  --text-title--line-height: 1.33;
+  --text-subtitle: 1.125rem;
+  --text-subtitle--line-height: 1.44;
+  --text-body: 1rem;
+  --text-body--line-height: 1.5;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.43;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.33;
+
+  /* Radius: sm 6, md 12, lg 16, pill */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Shadows are nearly imperceptible by design; depth comes from surface color */
+  --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.08);
+  --shadow-elevated: 0 1px 2px 0 rgb(0 0 0 / 0.08), 0 8px 24px -8px rgb(0 0 0 / 0.5);
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hide the page scrollbar; the page still scrolls with wheel, touch and keyboard */
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Visible focus for every interactive element: 2px outline, 2px offset */
+:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--accent-subtle);
+  color: var(--foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms;
+    --motion-base: 0ms;
+    --motion-slow: 0ms;
+  }
+}

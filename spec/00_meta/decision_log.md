@@ -23,6 +23,8 @@ To accept a proposal, change its status, add the date, and update any linked ope
 | ADR-011 | Kilograms as the canonical stored unit | Proposed | 2026-10-09 |
 | ADR-012 | Self-hosted auth library (Better Auth) | Proposed | 2026-10-09 |
 | ADR-013 | Dark-only design system, hand-built primitives in `components/ui/` | Accepted (owner request) | 2026-10-10 |
+| ADR-014 | Recharts for charts | Accepted (owner request) | 2026-10-10 |
+| ADR-015 | Dashboard built as a sample-data preview ahead of F-08 | Accepted (owner request, deviation) | 2026-10-10 |
 
 ---
 
@@ -89,3 +91,16 @@ See [Q-004](open_questions.md#q-004-authentication-provider).
 **Context:** the owner asked for a dark-mode design system based on the Perplexity `DESIGN.md` (warm minimalism), with reusable components and a `/styleguide` page. The source defines light mode only, uses one 24px size for every text style, and has no status colors.
 **Decision:** the app is dark-only (`color-scheme: dark`, no `prefers-color-scheme` branching). Tokens live in `app/globals.css`. Primitives are hand-built in `components/ui/` with no new dependencies (the second option in [styling_and_components.md](../02_coding_standards/styling_and_components.md#component-library)). The dark palette, type scale, accent, and status colors are **derived**, not taken from the source. Geist Sans replaces the proprietary pplxSans.
 **Consequences:** ST-003 no longer applies (no light theme to maintain). Adopting shadcn/ui later stays possible, but would replace these primitives. If a light theme is ever wanted, the token layer is the only place that changes.
+
+### ADR-014: Recharts for charts
+
+**Context:** the home dashboard needs a total-e1RM line chart and per-lift sparklines. F-09 listed the chart library as an open dependency.
+**Decision:** add `recharts` (3.10.x) and its peer `react-is`. Chart colors reference design tokens through `var(--…)`, so no hex values enter chart code. Charts are client components (`components/dashboard/`).
+**Alternatives:** hand-built SVG (no dependency, but axes, tooltips and range handling would be re-implemented). The owner chose the library.
+**Consequences:** F-09 can reuse it. Replacing it later only touches `total-chart.tsx`. The decorative sparklines (`sparkline.tsx`) are plain SVG: they have no axes, tooltip or interaction, so a chart library adds runtime cost without benefit.
+
+### ADR-015: Dashboard preview with sample data ahead of F-08
+
+**Context:** the owner asked for the home dashboard layout now. F-08 is `Not started` and depends on F-00 to F-07; no auth, roles, database or training models exist. `dashboards_and_progress.md` forbids placeholder statistics in shipped dashboards.
+**Decision:** build the UI shell and widgets against view-model types in `lib/dashboard/types.ts`, fed by one clearly marked mock module (`lib/dashboard/mock-data.ts`), on a route that returns 404 in production (`/dashboard-preview`) and shows a "Sample data" banner. Destinations that do not exist yet are passed as `href: null` and render disabled rather than as dead links.
+**Consequences:** this is a deviation from "no implementation before an approved spec". F-08 still needs its spec, plan and authorization-aware DAL (`lib/server/dal/dashboard.ts`). When it lands, replace `getDashboardData`, delete the mock module and the preview route, and move `AppShell` into the `(app)` layout. Role-based navigation visibility (`nav-config.ts`) is an assumption until F-01 defines the permission matrix.

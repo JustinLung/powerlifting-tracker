@@ -12,7 +12,7 @@ One row per backlog feature ([features/README.md](../features/README.md)). Updat
 | F-05 | Training execution and set logging | Not started | Not started | |
 | F-06 | Secure video uploads | Not started | Not started | |
 | F-07 | Video review and feedback | Not started | Not started | |
-| F-08 | Athlete and coach dashboards | Not started | Not started | |
+| F-08 | Athlete and coach dashboards | Not started | UI preview only | Layout and widgets exist on sample data (ADR-015). No spec, DAL, auth or real data. Not `Implemented` |
 | F-09 | Training history and progress | Not started | Not started | |
 | F-10 | Notifications and review indicators | Not started | Not started | |
 
@@ -23,3 +23,4 @@ One row per backlog feature ([features/README.md](../features/README.md)). Updat
 | 2026-10-09 | Created the `spec/` documentation system and `CLAUDE.md`. Replaced the template `README.md`. No application code changed. |
 | 2026-10-10 | Dark-only design system: tokens in `globals.css`, primitives in `components/ui/`, `/styleguide` route, ADR-013. Fixed KI-003 (body font). Not a backlog feature. Verified by `next build`, `tsc`, `eslint`, and a manual visual check; no automated tests exist yet. |
 | 2026-10-10 | Added `Dialog` and `Disclosure` primitives and a styleguide demo (log-exercise sheet, confirmation). Checked by hand at phone and desktop widths: open, Escape, add set, disclosure, focus return, scroll lock. No automated tests. |
+| 2026-10-10 | Home dashboard UI preview (athlete and coach views) on sample data at `/dashboard-preview`, plus `SegmentedControl`, Recharts (ADR-014). Verified by `next build`, `tsc`, `eslint`, and a manual check at desktop and phone widths. No automated tests. |

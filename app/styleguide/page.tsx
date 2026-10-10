@@ -7,6 +7,7 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Checkbox, Field, Input, Select, Switch, Textarea } from "@/components/ui/field";
 import { TextLink } from "@/components/ui/text-link";
 import { DialogDemo } from "./dialog-demo";
+import { SegmentedControlDemo } from "./segmented-control-demo";
 import { readTokens } from "./tokens";
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 
 const nav = [
   ["Foundations", [["colors", "Colors"], ["typography", "Typography"], ["spacing", "Spacing"], ["radius", "Radius"], ["elevation", "Elevation"], ["motion", "Motion"]]],
-  ["Components", [["buttons", "Buttons"], ["links", "Links"], ["badges", "Badges"], ["forms", "Form controls"], ["cards", "Cards"], ["alerts", "Alerts"], ["dialog", "Dialog"]]],
+  ["Components", [["buttons", "Buttons"], ["links", "Links"], ["badges", "Badges"], ["forms", "Form controls"], ["cards", "Cards"], ["alerts", "Alerts"], ["dialog", "Dialog"], ["segmented", "Segmented control"]]],
   ["Patterns", [["example", "Example: prescribed set"]]],
 ] as const;
 
@@ -340,6 +341,10 @@ export default async function StyleguidePage() {
 
         <Section id="dialog" title="Dialog" description="A bottom sheet on phones, a centered modal from sm up. Native <dialog>: focus is trapped, Escape and backdrop click close it, and focus returns to the trigger. Disclosure is the expandable 'Last time' section.">
           <DialogDemo />
+        </Section>
+
+        <Section id="segmented" title="Segmented control" description="A compact single-choice filter (time range, metric). Buttons with aria-pressed, not tabs: it changes one view rather than swapping panels.">
+          <SegmentedControlDemo />
         </Section>
 
         {/* ───────────── Patterns ───────────── */}

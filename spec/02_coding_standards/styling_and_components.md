@@ -7,7 +7,7 @@
 - The app is **dark-only** ([ADR-013](../00_meta/decision_log.md)). `:root` sets `color-scheme: dark`; there is no light theme and no `prefers-color-scheme` branching.
 - Semantic tokens (surfaces, text, lines, primary, accent, status, motion) are defined in `:root` and mapped through `@theme inline`. Type scale (`text-display` to `text-caption`), radius (`sm` 6, `md` 12, `lg` 16), and shadows are in `@theme`.
 - The rendered reference is the **`/styleguide`** route. It reads token values from `globals.css`, so it cannot drift from them.
-- Primitives exist in `components/ui/`: `Button`/`ButtonLink`, `TextLink`, `Badge`, `Card`, `Alert`, `Input`/`Textarea`/`Select`/`Field`, `Checkbox`, `Switch`, `Dialog` (native `<dialog>`: bottom sheet on phones, centered from `sm`; client component), `Disclosure` (native `<details>`). Class merging uses `lib/cn.ts`.
+- Primitives exist in `components/ui/`: `Button`/`ButtonLink`, `TextLink`, `Badge`, `Card`, `Alert`, `Input`/`Textarea`/`Select`/`Field`, `Checkbox`, `Switch`, `Dialog` (native `<dialog>`: bottom sheet on phones, centered from `sm`; client component), `Disclosure` (native `<details>`), `SegmentedControl` (client). Class merging uses `lib/cn.ts`.
 - Fonts: Geist Sans and Geist Mono through CSS variables on `<html>`.
 - No component library is installed.
 

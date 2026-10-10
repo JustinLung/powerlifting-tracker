@@ -8,12 +8,16 @@ Format: **Blocking** lists the features that cannot reach `Approved` until the q
 
 ### Q-001 Database and hosting
 
+- **Resolved 2026-10-10:** PostgreSQL on Neon via the Vercel Marketplace. See [ADR-007](decision_log.md#adr-007-postgresql-on-neon--drizzle).
+
 - **Context:** [Fact] No database is installed or configured.
 - **Options:** PostgreSQL (managed: Neon, Supabase, or another provider) · SQLite/libSQL (Turso) · a document store.
 - **Recommendation:** PostgreSQL. The data is strongly relational (a six-level hierarchy, role-scoped joins), needs transactions and foreign keys, and benefits from numeric types for weights. Use a managed provider with database branching for preview environments.
 - **Blocking:** F-00, and everything after it.
 
 ### Q-002 ORM / query layer
+
+- **Resolved 2026-10-10:** Drizzle. See [ADR-007](decision_log.md#adr-007-postgresql-on-neon--drizzle).
 
 - **Options:** Drizzle ORM · Prisma · raw SQL with a thin client.
 - **Recommendation:** Drizzle. It defines the schema in TypeScript, uses SQL-like queries, generates SQL migrations, has no separate engine binary, and works in serverless environments. Trade-off: it is less "batteries included" than Prisma for relation-heavy queries.
@@ -25,6 +29,8 @@ Format: **Blocking** lists the features that cannot reach `Approved` until the q
 - **Blocking:** F-02.
 
 ### Q-004 Authentication provider
+
+- **Resolved 2026-10-10:** Better Auth, compatibility checked against Next.js 16.4 with Cache Components. See [ADR-012](decision_log.md#adr-012-auth-library).
 
 - **Options:**
   - **Better Auth / Auth.js:** self-hosted. User tables live in our database. No per-user cost. We own security updates.
@@ -41,11 +47,15 @@ Format: **Blocking** lists the features that cannot reach `Approved` until the q
 
 ### Q-006 Hosting platform
 
+- **Resolved 2026-10-10:** Vercel. See [ADR-016](decision_log.md#adr-016-hosting-on-vercel).
+
 - **Context:** [Fact] Nothing in the repository commits to a host. `.vercel` appears in `.gitignore` only because the template adds it.
 - **Recommendation:** Vercel. It provides native Next.js 16 support (Cache Components, Partial Prefetching) and preview deployments.
 - **Blocking:** F-00 (environment and deployment setup).
 
 ### Q-007 Testing tools
+
+- **Resolved 2026-10-10:** Vitest and Playwright, with Postgres in Docker. See [ADR-017](decision_log.md#adr-017-testing-tools).
 
 - **Context:** [Fact] No test framework is installed.
 - **Recommendation:** Vitest for unit and integration tests (integration tests run against a real Postgres), and Playwright for end-to-end tests. See [testing.md](../02_coding_standards/testing.md).

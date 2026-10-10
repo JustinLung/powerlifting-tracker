@@ -45,7 +45,7 @@ flowchart LR
 
 - **Scope:** invite by email, accept or decline, end a relationship, the roster page, and the `canAccessAthlete` primitive with full authorization tests.
 - **Depends on:** F-01.
-- **Unresolved:** [Q-003](../00_meta/open_questions.md#q-003-multiple-coaches-per-athlete), [Q-015](../00_meta/open_questions.md#q-015-former-coach-access), and invitation email delivery (requires an email provider, which is not yet chosen).
+- **Unresolved:** [Q-003](../00_meta/open_questions.md#q-003-multiple-coaches-per-athlete), [Q-015](../00_meta/open_questions.md#q-015-former-coach-access), and invitation email delivery (uses Resend, [ADR-018](../00_meta/decision_log.md#adr-018-resend-for-email)).
 
 ## Phase 2: Programming and logging (MVP core)
 

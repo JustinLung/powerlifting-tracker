@@ -16,15 +16,19 @@ To accept a proposal, change its status, add the date, and update any linked ope
 | ADR-004 | Prescriptions and performance stored in separate tables | Accepted (requirement) | 2026-10-09 |
 | ADR-005 | Training session as its own entity | Proposed | 2026-10-09 |
 | ADR-006 | Set-level logging as the default granularity | Proposed | 2026-10-09 |
-| ADR-007 | PostgreSQL + Drizzle ORM | Proposed | 2026-10-09 |
+| ADR-007 | PostgreSQL on Neon + Drizzle ORM | Accepted (owner confirmed) | 2026-10-10 |
 | ADR-008 | Server-side Data Access Layer enforces all authorization | Proposed | 2026-10-09 |
 | ADR-009 | Server Actions for mutations; Route Handlers only for external callers | Proposed | 2026-10-09 |
 | ADR-010 | Videos in private object storage via direct upload + signed URLs | Proposed | 2026-10-09 |
 | ADR-011 | Kilograms as the canonical stored unit | Proposed | 2026-10-09 |
-| ADR-012 | Self-hosted auth library (Better Auth) | Proposed | 2026-10-09 |
+| ADR-012 | Self-hosted auth library (Better Auth) | Accepted (owner confirmed) | 2026-10-10 |
 | ADR-013 | Dark-only design system, hand-built primitives in `components/ui/` | Accepted (owner request) | 2026-10-10 |
 | ADR-014 | Recharts for charts | Accepted (owner request) | 2026-10-10 |
 | ADR-015 | Dashboard built as a sample-data preview ahead of F-08 | Accepted (owner request, deviation) | 2026-10-10 |
+| ADR-016 | Hosting on Vercel | Accepted (owner confirmed) | 2026-10-10 |
+| ADR-017 | Vitest (integration on real Postgres in Docker) and Playwright | Accepted (owner confirmed) | 2026-10-10 |
+| ADR-018 | Resend for transactional email | Accepted (owner confirmed) | 2026-10-10 |
+| ADR-019 | No caching of session or access reads | Accepted (owner confirmed) | 2026-10-10 |
 
 ---
 
@@ -62,9 +66,11 @@ To accept a proposal, change its status, add the date, and update any linked ope
 **Reasoning:** RPE and reps differ from set to set in powerlifting (top sets versus back-offs). e1RM needs per-set data. Videos refer to specific sets. Exercise-level summaries can be derived from set data, but set data cannot be recovered from summaries.
 **Trade-off:** it requires more taps. This is mitigated by prefilled values.
 
-### ADR-007: PostgreSQL + Drizzle
+### ADR-007: PostgreSQL on Neon + Drizzle
 
-See [Q-001](open_questions.md#q-001-database-and-hosting) and [Q-002](open_questions.md#q-002-orm--query-layer).
+**Context:** the data is strongly relational (a six-level hierarchy, role-scoped joins) and needs transactions, foreign keys, and numeric weights. See [Q-001](open_questions.md#q-001-database-and-hosting) and [Q-002](open_questions.md#q-002-orm--query-layer).
+**Decision:** PostgreSQL hosted on Neon, provisioned through the Vercel Marketplace. Drizzle ORM and drizzle-kit for the schema and SQL migrations.
+**Consequences:** `drizzle-orm` is compatible with Better Auth's Drizzle adapter (peer range `^0.45.2`). Neon branching can serve preview environments later. Dependencies are justified in the F-00 plan.
 
 ### ADR-008: Data Access Layer
 
@@ -84,7 +90,9 @@ See [Q-012](open_questions.md#q-012-weight-units).
 
 ### ADR-012: Auth library
 
-See [Q-004](open_questions.md#q-004-authentication-provider).
+**Context:** see [Q-004](open_questions.md#q-004-authentication-provider). Verified on 2026-10-10 with a scratch app on Next.js 16.4.0, `cacheComponents: true`, and Better Auth 1.7.7: the production build passes, a session read inside `<Suspense>` makes the route Partial Prerender, and sign-up, sign-in, and sign-out worked over HTTP. **Not verified:** Server Action cookie setting in a browser, the Drizzle adapter, email verification, and password reset (F-01 must test these).
+**Decision:** Better Auth, self-hosted, email and password with email verification. The `nextCookies()` plugin goes last in the plugin list. `proxy.ts` does only an optimistic cookie-presence redirect. The real check is in the DAL.
+**Consequences:** `notFound()` inside a Suspense boundary renders the not-found UI with HTTP status 200, because the status is sent before the content resolves. AUTH-002 means "show not-found UI". The user still cannot tell whether the resource exists. We own security updates for the library. Clerk remains the fallback if it proves unfit.
 
 ### ADR-013: Dark-only design system with hand-built primitives
 
@@ -104,3 +112,23 @@ See [Q-004](open_questions.md#q-004-authentication-provider).
 **Context:** the owner asked for the home dashboard layout now. F-08 is `Not started` and depends on F-00 to F-07; no auth, roles, database or training models exist. `dashboards_and_progress.md` forbids placeholder statistics in shipped dashboards.
 **Decision:** build the UI shell and widgets against view-model types in `lib/dashboard/types.ts`, fed by one clearly marked mock module (`lib/dashboard/mock-data.ts`), on a route that returns 404 in production (`/dashboard-preview`) and shows a "Sample data" banner. Destinations that do not exist yet are passed as `href: null` and render disabled rather than as dead links.
 **Consequences:** this is a deviation from "no implementation before an approved spec". F-08 still needs its spec, plan and authorization-aware DAL (`lib/server/dal/dashboard.ts`). When it lands, replace `getDashboardData`, delete the mock module and the preview route, and move `AppShell` into the `(app)` layout. Role-based navigation visibility (`nav-config.ts`) is an assumption until F-01 defines the permission matrix.
+
+### ADR-016: Hosting on Vercel
+
+**Decision:** deploy on Vercel for native Next.js 16 support (Cache Components, Partial Prefetching) and preview deployments. Resolves [Q-006](open_questions.md#q-006-hosting-platform). CI is therefore in scope for F-00.
+
+### ADR-017: Testing tools
+
+**Decision:** Vitest for unit and integration tests. Integration tests run against a real PostgreSQL started locally in Docker (CI uses a Postgres service container). Playwright for end-to-end tests. Resolves [Q-007](open_questions.md#q-007-testing-tools).
+**Consequences:** contributors need Docker for the integration tests. Tests never touch the Neon production database.
+
+### ADR-018: Resend for email
+
+**Decision:** Resend sends verification and password-reset email. Resolves the email-provider gap noted for F-01 and F-02. Until a sending domain is verified, development prints emails to the server log. The API key is an environment variable, set by the owner.
+**Consequences:** adds the `resend` dependency in F-01 (justified in its plan). Invitation email (F-02) reuses this provider.
+
+### ADR-019: No caching of session or access reads
+
+**Context:** the Next.js guide suggests `use cache: private` for the current-user read, with a default 5-minute stale time. That would let a removed coach keep access for minutes and would break AUTH-003. The owner chose no caching on 2026-10-10.
+**Decision:** `getCurrentUser` and every DAL access check run on each request, behind `<Suspense>`. No `use cache`, `use cache: private`, or Better Auth cookie cache for these reads. Data that is cached must be keyed by user id, derived after authorization, and never contain access decisions.
+**Consequences:** one small indexed query per request. Revisit only with measurements, and any change needs a new ADR and an update to AUTH-003.

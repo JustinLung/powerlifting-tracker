@@ -2,7 +2,7 @@
 
 A training platform for powerlifting coaches and athletes. Coaches prescribe structured programs, athletes log what they actually performed, and both sides use exercise videos and written feedback to review technique.
 
-> **Current state:** early scaffold. The app has no database, authentication, or saved user data yet. Two UI pages exist: a sample-data dashboard preview and a styleguide. See [spec/05_project_memory/current_state.md](spec/05_project_memory/current_state.md) for the full inventory and [spec/05_project_memory/next_steps.md](spec/05_project_memory/next_steps.md) for what comes next.
+> **Current state:** early scaffold. The app has no database, authentication, or saved user data yet. UI pages exist for a sample-data dashboard preview, a sample-data programs preview and a styleguide. See [spec/05_project_memory/current_state.md](spec/05_project_memory/current_state.md) for the full inventory and [spec/05_project_memory/next_steps.md](spec/05_project_memory/next_steps.md) for what comes next.
 
 ## Stack
 
@@ -16,6 +16,7 @@ A training platform for powerlifting coaches and athletes. Coaches prescribe str
 | Route | Purpose |
 | --- | --- |
 | `/` | Template landing page from `create-next-app` |
+| `/programs-preview` | Program blocks, weeks and training day cards built from sample data. `?state=empty`, `forbidden` or `error` shows those states. Returns 404 in production |
 | `/dashboard-preview` | Athlete and coach dashboards built from sample data. Add `?role=coach` for the coach view. Returns 404 in production |
 | `/styleguide` | Rendered reference for design tokens and UI components |
 

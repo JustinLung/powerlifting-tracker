@@ -1,10 +1,10 @@
 # Current state
 
-_Last updated: 2026-10-10, after the sign-in and sign-up screens. Update this file whenever capabilities or architecture change._
+_Last updated: 2026-10-10, after the programs preview. Update this file whenever capabilities or architecture change._
 
 ## Summary
 
-The repository is an **unmodified `create-next-app` scaffold** (Next.js 16.4.0, React 19.3.0, TypeScript, Tailwind v4). There is **no product backend**: no database, no auth, no domain models, and no tests. The only product UI is the sample-data dashboard preview (below). Product design, architecture, and workflow are documented in `spec/`, and most architectural choices are still **[Proposed]**.
+The repository is an **unmodified `create-next-app` scaffold** (Next.js 16.4.0, React 19.3.0, TypeScript, Tailwind v4). There is **no product backend**: no database, no auth, no domain models, and no tests. The only product UI is the sample-data dashboard and programs previews (below). Product design, architecture, and workflow are documented in `spec/`, and most architectural choices are still **[Proposed]**.
 
 ## What exists [Fact]
 
@@ -19,6 +19,8 @@ The repository is an **unmodified `create-next-app` scaffold** (Next.js 16.4.0, 
 | `components/dashboard/` | Dashboard widgets, `AppShell`, `Sidebar`, athlete and coach compositions |
 | `lib/dashboard/` | View-model `types.ts`, pure `metrics.ts` helpers, and **`mock-data.ts` (sample data only)** |
 | `lib/domain/format.ts` | kg, RPE, sets × reps, date and relative-time formatting |
+| `app/programs-preview/` | Dev-only route (404 in production). Block list panel, week header, training day cards, on sample data. `?state=empty\|forbidden\|error` shows those states, `?role=coach` switches nav. See ADR-020 |
+| `components/programs/`, `lib/programs/` | Programs view components, view-model `types.ts`, pure `metrics.ts`, and **`mock-data.ts` (sample data only)** |
 | `app/dashboard-preview/` | Dev-only route (404 in production). `?role=coach` switches the view. Sample data banner. See ADR-015 |
 | `app/(auth)/` | `/sign-in` and `/sign-up` screens, **UI only**: client-side validation, no backend. A valid submit shows a "Not connected yet" alert. Role selection is deliberately not in sign-up (Q-019) |
 | `components/auth/` | `SignInForm`, `SignUpForm`, `PasswordInput` (show/hide) |
@@ -43,4 +45,4 @@ The repository is an **unmodified `create-next-app` scaffold** (Next.js 16.4.0, 
 
 ## Accepted vs proposed
 
-Accepted: ADR-001 (stack), ADR-002 (Cache Components), ADR-003 (spec-driven docs), ADR-004 (separate prescription and performance), ADR-013 (dark-only design system), ADR-014 (Recharts), and ADR-015 (sample-data dashboard preview). All other architecture choices (database, ORM, auth, storage, hosting, testing tools) are **proposed only**. See [open_questions.md](../00_meta/open_questions.md).
+Accepted: ADR-001 (stack), ADR-002 (Cache Components), ADR-003 (spec-driven docs), ADR-004 (separate prescription and performance), ADR-013 (dark-only design system), ADR-014 (Recharts), and ADR-015 (sample-data dashboard preview), and ADR-020 (sample-data programs preview). All other architecture choices (database, ORM, auth, storage, hosting, testing tools) are **proposed only**. See [open_questions.md](../00_meta/open_questions.md).

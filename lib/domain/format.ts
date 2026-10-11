@@ -60,3 +60,10 @@ export function formatInitials(name: string): string {
     .slice(0, 2)
     .toUpperCase();
 }
+
+/** "48.2 MB". Decimal units, as file managers show them. */
+export function formatFileSize(bytes: number): string {
+  if (bytes < 1_000_000) return `${Math.max(1, Math.round(bytes / 1000))} KB`;
+  if (bytes < 1_000_000_000) return `${number.format(bytes / 1_000_000)} MB`;
+  return `${number.format(bytes / 1_000_000_000)} GB`;
+}

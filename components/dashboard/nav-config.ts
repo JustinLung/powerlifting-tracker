@@ -14,7 +14,7 @@ const both: DashboardRole[] = ["athlete", "coach"];
 
 export const navItems: NavItem[] = [
   { label: "Home", icon: "home", href: "/dashboard-preview", roles: both },
-  { label: "Program", icon: "program", href: null, roles: both },
+  { label: "Program", icon: "program", href: "/programs-preview", roles: both },
   { label: "Athletes", icon: "athletes", href: null, roles: ["coach"] },
   { label: "Videos", icon: "videos", href: null, roles: both },
   { label: "Feedback", icon: "feedback", href: null, roles: both },
